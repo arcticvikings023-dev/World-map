@@ -1,7 +1,7 @@
 {
   "territories": {
-    "US": {"team": "neutral", "type":"Freeland", "owner":"red", "points":50},
-    "CA": {"team": "neutral", "type":"Freeland", "owner":"blue", "points":40},
+    "US": {"team": "neutral", "type":"Freeland", "owner":"red team", "points":50},
+    "CA": {"team": "neutral", "type":"Freeland", "owner":"blue team", "points":40},
     "BR": {"team": "neutral", "type":"Freeland", "owner":"None", "points":45},
     "AR": {"team": "neutral", "type":"Freeland", "owner":"None", "points":30},
     "MX": {"team": "neutral", "type":"Freeland", "owner":"None", "points":35},
