@@ -14,8 +14,8 @@
     "ZA": {"team": "neutral", "type":"Freeland", "owner":"None", "points":30}
   },
   "teams": {
-    "red": {"points":0},
-    "blue": {"points":0}
+    "red": {"points":50},
+    "blue": {"points":50}
   },
   "players": {}
 }
