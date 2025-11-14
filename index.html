@@ -28,7 +28,6 @@
     .blue { background-color: #2196F3; }
     .neutral { background-color: #777; }
 
-    /* Tooltip */
     .tooltip {
       position: absolute;
       background: #333;
@@ -40,6 +39,7 @@
       transition: opacity 0.2s;
       font-size: 14px;
       z-index: 10;
+      white-space: pre-line;
     }
   </style>
 </head>
@@ -52,33 +52,29 @@
     const tooltip = document.getElementById("tooltip");
     const mapDiv = document.getElementById("map-container");
 
-    // Fetch the map JSON (can be hosted)
-    fetch('army-map.json')
+    fetch("https://raw.githubusercontent.com/arcticvikings023-dev/army-map-web/main/army-map.json")
       .then(res => res.json())
       .then(data => {
         const territories = Object.entries(data.territories).map(([name, info]) => ({name, ...info}));
 
+        const coords = {
+          "North Base": {x:100, y:50},
+          "South Base": {x:650, y:300},
+          "Forest": {x:250, y:150},
+          "Hill": {x:400, y:100},
+          "River": {x:350, y:250},
+          "Mountain Pass": {x:500, y:50},
+          "East Village": {x:600, y:150},
+          "West Outpost": {x:150, y:300}
+        };
+
         territories.forEach(t => {
           const div = document.createElement("div");
           div.className = `territory ${t.team}`;
-          
-          // Example coordinates for world layout
-          const coords = {
-            "North Base": {x:100, y:50},
-            "South Base": {x:650, y:300},
-            "Forest": {x:250, y:150},
-            "Hill": {x:400, y:100},
-            "River": {x:350, y:250},
-            "Mountain Pass": {x:500, y:50},
-            "East Village": {x:600, y:150},
-            "West Outpost": {x:150, y:300}
-          };
           div.style.left = coords[t.name].x + "px";
           div.style.top = coords[t.name].y + "px";
-
           div.innerText = t.name;
 
-          // Hover tooltip
           div.addEventListener("mouseenter", (e) => {
             tooltip.style.opacity = 1;
             tooltip.innerText = `Territory: ${t.name}\nType: ${t.type}\nOwner: ${t.owner}\nPoints: ${t.points}`;
