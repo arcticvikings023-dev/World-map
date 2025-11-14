@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>World Army Map</title>
+  <style>
+    body { font-family: Arial; }
+    #map-container {
+      position: relative;
+      width: 800px;
+      height: 400px;
+      border: 2px solid black;
+      margin: 20px auto;
+      background-color: #e0e0e0;
+    }
+    .territory {
+      position: absolute;
+      padding: 8px;
+      border-radius: 5px;
+      cursor: pointer;
+      color: white;
+      font-weight: bold;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+    .territory:hover { transform: scale(1.1); }
+
+    .red { background-color: #f44336; }
+    .blue { background-color: #2196F3; }
+    .neutral { background-color: #777; }
+
+    /* Tooltip */
+    .tooltip {
+      position: absolute;
+      background: #333;
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 5px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+      font-size: 14px;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+  <h1 style="text-align:center;">🌍 Interactive World Army Map</h1>
+  <div id="map-container"></div>
+  <div id="tooltip" class="tooltip"></div>
+
+  <script>
+    const tooltip = document.getElementById("tooltip");
+    const mapDiv = document.getElementById("map-container");
+
+    // Fetch the map JSON (can be hosted)
+    fetch('army-map.json')
+      .then(res => res.json())
+      .then(data => {
+        const territories = Object.entries(data.territories).map(([name, info]) => ({name, ...info}));
+
+        territories.forEach(t => {
+          const div = document.createElement("div");
+          div.className = `territory ${t.team}`;
+          
+          // Example coordinates for world layout
+          const coords = {
+            "North Base": {x:100, y:50},
+            "South Base": {x:650, y:300},
+            "Forest": {x:250, y:150},
+            "Hill": {x:400, y:100},
+            "River": {x:350, y:250},
+            "Mountain Pass": {x:500, y:50},
+            "East Village": {x:600, y:150},
+            "West Outpost": {x:150, y:300}
+          };
+          div.style.left = coords[t.name].x + "px";
+          div.style.top = coords[t.name].y + "px";
+
+          div.innerText = t.name;
+
+          // Hover tooltip
+          div.addEventListener("mouseenter", (e) => {
+            tooltip.style.opacity = 1;
+            tooltip.innerText = `Territory: ${t.name}\nType: ${t.type}\nOwner: ${t.owner}\nPoints: ${t.points}`;
+          });
+          div.addEventListener("mousemove", (e) => {
+            tooltip.style.left = (e.pageX + 10) + "px";
+            tooltip.style.top = (e.pageY + 10) + "px";
+          });
+          div.addEventListener("mouseleave", () => {
+            tooltip.style.opacity = 0;
+          });
+
+          mapDiv.appendChild(div);
+        });
+      })
+      .catch(err => console.error("Error loading map:", err));
+  </script>
+</body>
+</html>
